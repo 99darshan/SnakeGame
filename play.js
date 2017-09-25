@@ -2,7 +2,7 @@
 // const snake = document.getElementById('snake');
 // snake is made up of three snake divs initially, let's call them snakeBody
 // snake[0] is the head of our snake
-const snake = document.getElementsByClassName('snake'); // returns a collection of div's with class snake
+const snake = document.getElementsByClassName('snake-body'); // returns a collection of div's with class snake
 const fruit = document.getElementById('fruit');
 // const boardWidth = document.getElementById('game-board').offsetWidth;
 // const boardHeight = document.getElementById('game-board').offsetHeight;
@@ -275,7 +275,7 @@ function addSnakeTail(){
     // set the initial position of newly created snakeBody out of bounds of the border 
     // our snake is moving in the setInterval, where the newly created snakeBody is appended 
     // to our snake
-    snakeDiv.className = 'snake';
+    snakeDiv.className = 'snake-body';
     snakeDiv.style.top = -200;
     snakeDiv.style.left = -200;
 }
