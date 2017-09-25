@@ -52,8 +52,25 @@ var fruitTopY = fruit.offsetTop;
 // randomly generate position for our fruit
 // TODO: shouldnot overlap with the position of snake
 function randomizeFruitPos(){
-    fruitTopX = Math.random() * ( boardWidth - snakeBodyWidth * 2);
-    fruitTopY = Math.random() * ( boardHeight - snakeBodyHeight * 2);
+    // the below two arrays hold the possible x and y positions for the fruit to move
+    // need this so that the fruit will be generated in positions that are multiple of snake size
+    // this will implement the grid system
+    var possibleXPositions = [];
+    var possibleYPositions = [];
+
+    for(var i = 0; i < boardWidth / snakeBodyWidth; i++){
+        possibleXPositions.push(i * snakeBodyWidth);
+    }
+
+    for(var i = 0; i< boardHeight / snakeBodyHeight; i++){
+        possibleYPositions.push( i * snakeBodyHeight);
+    }
+
+    fruitTopX = possibleXPositions[Math.floor(Math.random() * possibleXPositions.length)];
+    fruitTopY = possibleYPositions[Math.floor(Math.random() * possibleYPositions.length)];
+
+    // fruitTopX = Math.random() * ( boardWidth - snakeBodyWidth * 2);
+    // fruitTopY = Math.random() * ( boardHeight - snakeBodyHeight * 2);
 
     fruit.style.top = fruitTopY;
     fruit.style.left = fruitTopX;
@@ -226,7 +243,7 @@ document.onkeydown =function(e){
                 move("down");
                 currentDir = "down";
             }
-             
+            
             break;
     }
 }
