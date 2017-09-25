@@ -30,7 +30,7 @@ function startGame(){
 }
 
 
-// array to hold x and y coordinate of top left positioning of snake i.e. x and position of each snake body 
+// array to hold x and y coordinate of top left positioning of snake i.e. x and y position of each snake body 
 // left +x, top +y
 // var snakeTopX = snake.offsetLeft;
 var snakeTopX = []; // holds x coordinate i.e left value of top left point of all the snake bodies
