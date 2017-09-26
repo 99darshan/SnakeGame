@@ -71,17 +71,17 @@ function randomizeFruitPos(){
         // same logic for the y coordinate
 
         //console.log(snakeTopX);
-        // if(!snakeTopY.includes(xCorToAdd)){
+        if(!snakeTopY.includes(xCorToAdd)){
             possibleXPositions.push(xCorToAdd);
-        // }
+        }
         
     }
 
     for(var i = 0; i< boardHeight / snakeBodyHeight; i++){
         var yCorToAdd = i * snakeBodyHeight;
-        // if(!snakeTopY.includes(yCorToAdd)){
+        if(!snakeTopY.includes(yCorToAdd)){
             possibleYPositions.push(yCorToAdd);            
-        // }
+        }
     }
 
     fruitTopX = possibleXPositions[Math.floor(Math.random() * possibleXPositions.length)];
