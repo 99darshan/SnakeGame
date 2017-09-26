@@ -17,35 +17,40 @@ const snakeMoveTimeInterval = 100;
 const boardWidth = document.getElementById('game-board').style.width = snakeBodyWidth * 16;
 const boardHeight = document.getElementById('game-board').style.height = snakeBodyHeight * 25;
 
-// array to hold x and y coordinate of top left positioning of snake i.e. x and y position of each snake body 
-// left +x, top +y
-// var snakeTopX = snake.offsetLeft;
-var snakeTopX = []; // holds x coordinate i.e left value of top left point of all the snake bodies
 
-for(var i = 0; i < snake.length; i++){
-    snakeTopX.push(snake[i].offsetLeft);
-}
-
-var snakeTopY = []; // holds y coordinate i.e top value of top left point of all the snake bodies
-for(var i = 0; i < snake.length; i++){
-    snakeTopY.push(snake[i].offsetTop);
-}
  
 //var snakeTopY = snake.offsetTop;
 // x and y coordinate of top left positioning of fruit
 var fruitTopX = fruit.offsetLeft;
 var fruitTopY = fruit.offsetTop;
 
+// array to hold x and y coordinate of top left positioning of snake i.e. x and y position of each snake body 
+// left +x, top +y
+// var snakeTopX = snake.offsetLeft;
+var snakeTopX = []; // holds x coordinate i.e left value of top left point of all the snake bodies
+var snakeTopY = []; // holds y coordinate i.e top value of top left point of all the snake bodies
+
 startGame();
 function startGame(){
-    // randomly position the fruit when the game starts
-    randomizeFruitPos();
+
     
     //set position for each initial snake bodies in our snake
     for(var i = 0; i < snake.length; i++){
         snake[i].style.top = snakeBodyHeight * (snake.length - i -1);
         snake[i].style.left = 0;
     }
+
+    // push the assigned position to the snakeTopX and snakeTopY array
+    for(var i = 0; i < snake.length; i++){
+        snakeTopX.push(snake[i].offsetLeft);
+    }
+
+    for(var i = 0; i < snake.length; i++){
+        snakeTopY.push(snake[i].offsetTop);
+    }
+
+    // randomly position the fruit when the game starts
+    randomizeFruitPos();
 }
 
 
@@ -66,17 +71,17 @@ function randomizeFruitPos(){
         // same logic for the y coordinate
 
         //console.log(snakeTopX);
-        if(!snakeTopY.includes(xCorToAdd)){
+        // if(!snakeTopY.includes(xCorToAdd)){
             possibleXPositions.push(xCorToAdd);
-        }
+        // }
         
     }
 
     for(var i = 0; i< boardHeight / snakeBodyHeight; i++){
         var yCorToAdd = i * snakeBodyHeight;
-        if(!snakeTopY.includes(yCorToAdd)){
+        // if(!snakeTopY.includes(yCorToAdd)){
             possibleYPositions.push(yCorToAdd);            
-        }
+        // }
     }
 
     fruitTopX = possibleXPositions[Math.floor(Math.random() * possibleXPositions.length)];
@@ -324,14 +329,19 @@ function gameOver(){
         snake[i].style.visibility = "hidden";
     }
     fruit.style.visibility = "hidden";
+
+    // replay on enter
+    document.addEventListener('keyup', function(e){
+        if(e.key === "Enter") location.reload();
+    });
+
+    // gameOver button Click listener
+    // replay on click
+    document.getElementById('gameOver').addEventListener("click", function(){
+        location.reload(); // reload page when play again button is clicked
+    });
 }
 
-// gameOver button Click listener
-document.getElementById('gameOver').addEventListener("click", function(){
-    location.reload(); // reload page when play again button is clicked
-});
-
-//document.getElementById('gameOver').addEventListener()
 
 // count and update score
 var score = 0;
