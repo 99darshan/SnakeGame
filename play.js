@@ -30,10 +30,16 @@ var fruitTopY = fruit.offsetTop;
 var snakeTopX = []; // holds x coordinate i.e left value of top left point of all the snake bodies
 var snakeTopY = []; // holds y coordinate i.e top value of top left point of all the snake bodies
 
-startGame();
-function startGame(){
+// 2D array to hold all xy position of gameBoardGrid
+//[[0,0],[0,20],[0,40],...]
+var allXYPosInGameBoard = [];
 
-    
+// 2D array to hold all current XY position for snake bodies
+var snakeXYPos = [];
+
+
+startGame();
+function startGame(){    
     //set position for each initial snake bodies in our snake
     for(var i = 0; i < snake.length; i++){
         snake[i].style.top = snakeBodyHeight * (snake.length - i -1);
@@ -41,59 +47,127 @@ function startGame(){
     }
 
     // push the assigned position to the snakeTopX and snakeTopY array
+    // push current all XY position of snake bodies to 2D snakeXYPos array as well
     for(var i = 0; i < snake.length; i++){
         snakeTopX.push(snake[i].offsetLeft);
+        snakeTopY.push(snake[i].offsetTop);    
+        snakeXYPos.push([snake[i].offsetLeft, snake[i].offsetTop]);    
     }
 
-    for(var i = 0; i < snake.length; i++){
-        snakeTopY.push(snake[i].offsetTop);
+    // push the xy position of gameBoardGrid to the allXYPosInGameBoard array
+    for(var i = 0; i < boardWidth / snakeBodyWidth; i++){
+        for(var j = 0; j < boardHeight / snakeBodyHeight; j++){
+            var xCorToAdd = i * snakeBodyWidth;
+            var yCorToAdd = j * snakeBodyHeight;
+            allXYPosInGameBoard.push([xCorToAdd, yCorToAdd]);
+        }
     }
+    console.log(allXYPosInGameBoard);
 
     // randomly position the fruit when the game starts
     randomizeFruitPos();
 }
 
+// randomly generate fruit 
+// without overlapping with the current snake position
+// using 2D array
 
-// randomly generate position for our fruit
-// TODO: shouldnot overlap with the position of snake
+
 function randomizeFruitPos(){
-    // the below two arrays hold the possible x and y positions for the fruit to move
-    // need this so that the fruit will be generated in positions that are multiple of snake size
-    // this will implement the grid system
-    var possibleXPositions = [];
-    var possibleYPositions = [];
-    console.log(snakeTopX);
-    for(var i = 0; i < boardWidth / snakeBodyWidth; i++){
-        var xCorToAdd = i * snakeBodyWidth;
-        // should push the coordinate to pssibleXpositions array of fruits
-        // only if the snakeTopX array doesn't contain that coordinate to be pushed
-        // solves the issue fruit being generated in the snake body
-        // same logic for the y coordinate
-
-        //console.log(snakeTopX);
-        if(!snakeTopY.includes(xCorToAdd)){
-            possibleXPositions.push(xCorToAdd);
-        }
-        
+    var possibelXYPosForFruit = [];
+    
+    // get the current x,y position for all snake body and save it to the snakeXYPos array
+    for(var i = 0; i < snake.length; i++){
+        // snakeXYPos.push([snake[i].offsetLeft, snake[i].offsetTop]);
+        snakeXYPos[i] = [snake[i].offsetLeft, snake[i].offsetTop];
     }
+    console.log("snakeXy" + snakeXYPos);
 
-    for(var i = 0; i< boardHeight / snakeBodyHeight; i++){
-        var yCorToAdd = i * snakeBodyHeight;
-        if(!snakeTopY.includes(yCorToAdd)){
-            possibleYPositions.push(yCorToAdd);            
+    // determine possible new position for fruit
+    // for all [x,y] positions in the gameBoard, only those [x,y] values not in snakeXYPos
+    // array can be the possible new position of fruit
+    for(var j = 0; j < allXYPosInGameBoard.length; j++){
+
+        // can't use includes or indexOf array functions to check if an array object [x,y] is in the 2D array [[x,y], [x1,y1],..]
+        // since includes and indeOf does strict comparison === , so cann't check for the objects
+
+        // if( !snakeXYPos.includes(allXYPosInGameBoard[j]) ){
+        //     console.log("possible fruit pos");
+        // }
+
+        // to solve this use a workaround and use JSON.stringify to convert the array snakeXYPos to string
+        // and use indexOf to check for substring of allXYPosInGameBoard[j] element
+        // e.g checks '[[10,20], [20,40], [50,60]]'.indexOf('[50,60]')
+        // retruns the index of starting of substring '[50,60]' i.e. 17 or so
+        /// returns -1 if cann't find that substring
+
+        //console.log(JSON.stringify(snakeXYPos).indexOf(JSON.stringify(allXYPosInGameBoard[j])))
+
+        if(JSON.stringify(snakeXYPos).indexOf(JSON.stringify(allXYPosInGameBoard[j])) == -1){
+            possibelXYPosForFruit.push(allXYPosInGameBoard[j]);
         }
+
+
     }
-
-    fruitTopX = possibleXPositions[Math.floor(Math.random() * possibleXPositions.length)];
-    fruitTopY = possibleYPositions[Math.floor(Math.random() * possibleYPositions.length)];
-
-    // fruitTopX = Math.random() * ( boardWidth - snakeBodyWidth * 2);
-    // fruitTopY = Math.random() * ( boardHeight - snakeBodyHeight * 2);
+     var randomFruitPos = possibelXYPosForFruit[Math.floor(Math.random() * possibelXYPosForFruit.length)];
+     // randomFruitPos is a 2D array e.g. [[x,y]]
+    fruitTopX = randomFruitPos[0];
+    fruitTopY = randomFruitPos[1];
 
     fruit.style.top = fruitTopY;
     fruit.style.left = fruitTopX;
-    //console.log("fruit pos: " + fruitTopX + " " + fruitTopY);
 }
+
+// randomly generate position for our fruit
+// without overlapping with the current position of snake
+// BUG ALERT: This logic doesn't work when snake grows in size and fills the entire
+// width or height of the game board
+
+// function randomizeFruitPos(){
+//     // the below two arrays hold the possible x and y positions for the fruit to move
+//     // need this so that the fruit will be generated in positions that are multiple of snake size
+//     // this will implement the grid system
+//     var possibleXPositions = [];
+//     var possibleYPositions = [];
+//     console.log(snakeTopX);
+//     console.log(snakeTopY);
+
+//     //console.log(snakeTopX);
+//     for(var i = 0; i < boardWidth / snakeBodyWidth; i++){
+//             var xCorToAdd = i * snakeBodyWidth;
+//             // should push the coordinate to pssibleXpositions array of fruits
+//             // only if the snakeTopX array doesn't contain that coordinate to be pushed
+//             // solves the issue fruit being generated in the snake body
+//             // same logic for the y coordinate
+
+//             //console.log(snakeTopX);
+//             if(!snakeTopX.includes(xCorToAdd)){
+//                 possibleXPositions.push(xCorToAdd);
+//             } 
+//     }
+
+//     for(var i = 0; i< boardHeight / snakeBodyHeight; i++){
+//         var yCorToAdd = i * snakeBodyHeight;
+//         if(!snakeTopY.includes(yCorToAdd)){
+//             possibleYPositions.push(yCorToAdd);            
+//         }
+//     }
+//     console.log(possibleXPositions);
+
+//     fruitTopX = possibleXPositions[Math.floor(Math.random() * possibleXPositions.length)];
+//     fruitTopY = possibleYPositions[Math.floor(Math.random() * possibleYPositions.length)];
+
+//     console.log("fruitTopX value chosen from PossibleXPositions " + fruitTopX);
+    
+//     // fruitTopX = Math.random() * ( boardWidth - snakeBodyWidth * 2);
+//     // fruitTopY = Math.random() * ( boardHeight - snakeBodyHeight * 2);
+
+//     fruit.style.top = fruitTopY;
+//     fruit.style.left = fruitTopX;
+//     console.log("fruit pos: " + fruitTopX + " " + fruitTopY);
+// }
+
+
 
 // functions to move snake left, right, up, down
 var moveTimer;
@@ -244,10 +318,10 @@ document.onkeydown =function(e){
                 move("up"); // can't moveup if snake's head is moving down
                 currentDir = "up";
             } 
-            console.log('up');
+            //console.log('up');
             break;
         case "ArrowRight":
-            console.log('right');
+            //console.log('right');
             if(currentDir !== "left"){
                 if(moveTimer != null) clearInterval(moveTimer);                        
                 move("right");
@@ -255,7 +329,7 @@ document.onkeydown =function(e){
             } 
             break;
         case "ArrowDown":
-            console.log('down');
+            //console.log('down');
             if(currentDir !== "up"){
                 if(moveTimer != null) clearInterval(moveTimer);                        
                 move("down");
@@ -276,10 +350,10 @@ function collision(){
     if(snakeTopX[0] < fruitTopX + fruitSize && snakeTopX[0] + snakeBodyWidth > fruitTopX && 
         snakeTopY[0] < fruitTopY + fruitSize && snakeTopY[0] + snakeBodyHeight > fruitTopY)
     {
-        console.log(snakeTopX[0] < fruitTopX + fruitSize);
-        console.log(snakeTopX[0] + snakeBodyWidth > fruitTopX);
-        console.log(snakeTopY[0] < fruitTopY + fruitSize);
-        console.log(snakeTopY[0] + snakeBodyHeight > fruitTopY);
+        // console.log(snakeTopX[0] < fruitTopX + fruitSize);
+        // console.log(snakeTopX[0] + snakeBodyWidth > fruitTopX);
+        // console.log(snakeTopY[0] < fruitTopY + fruitSize);
+        // console.log(snakeTopY[0] + snakeBodyHeight > fruitTopY);
         console.log("collision");
         updateScore();
         randomizeFruitPos();
@@ -297,7 +371,7 @@ function collision(){
          if(snakeTopX[0] < snakeTopX[i] + snakeBodyWidth && snakeTopX[0] + snakeBodyHeight > snakeTopX[i] &&
             snakeTopY[0] < snakeTopY[i] + snakeBodyHeight && snakeTopY[0] + snakeBodyHeight > snakeTopY[i]
          ){
-             console.log("snake collided with its own body");
+             //console.log("snake collided with its own body");
              gameOver();
          }
     }
