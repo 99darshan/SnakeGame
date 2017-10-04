@@ -1,18 +1,19 @@
 #game-board {
-    border: 1px solid #FA8752;
+    /* border: 1px solid #FA8752; */
     /* border: 1px solid #B94A3C; */
     
     
     /* height: 540px;
     width: 320px; */
     position: relative;
-    top: 15%;
+    top: 2%;
     left: 40%;
+    background: url('icons/png/002-square.png');
 }
 
 .snake-body {
-    height: 20px;
-    width: 20px;
+    height: 24px;
+    width: 24px;
     border: 1px solid white;
     background: #F8643F;
     position: absolute;
@@ -21,9 +22,10 @@
 }
 
 #fruit {
-    height: 20px;
-    width: 20px;
-    background: #08A7D8;
+    height: 24px;
+    width: 24px;
+    /* background: #08A7D8; */
+    background:transparent;
     position: absolute;
     top: 10px;
     left: 10px;
@@ -43,13 +45,16 @@
     color: white;
 }
 
+
 #score {
-    background: gray;
+    width: 100px;
+     background: gray;
     color: white;
-    left: 55%;
+    left: 130px;
     position: absolute;
     display: inline-block;
     top: 2%;
+    
 }
 
 #score > h2 {
@@ -57,11 +62,16 @@
     text-align: center;
 }
 
+#score > h2 > i {
+    color: #FA8752;
+}
+
 #high-score {
+    width: 100px;
     background: #FA8752;
     color: white;
     top: 2%;
-    left: 40%;
+    left: 20px;
     position: absolute;
     display: inline-block;
 }
@@ -69,4 +79,8 @@
 #high-score > h2 {
     padding: 10px;
     text-align: center;
+}
+
+#high-score > h2 >i {
+    color: gray;
 }

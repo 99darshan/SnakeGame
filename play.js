@@ -54,7 +54,7 @@ function startGame(){
     score = 0;
 
     // show/hide elements as required when restaring game after gameOver
-    document.getElementById("score").innerHTML = "<h2> score: " + score + "</h2>";
+    document.getElementById("score").innerHTML = "<h2> <i class=\"fa fa-apple\" aria-hidden=\"true\"></i>" + score +  "</h2>";
     
     for(var i=0; i < snake.length; i++){
         snake[i].style.visibility = "visible";
@@ -440,7 +440,8 @@ function gameOver(){
     // check highScore
     if(score >= highScore){
         highScore = score;
-        document.getElementById("high-score").innerHTML = "<h2> High Score: " + highScore + "</h2>";        
+        document.getElementById("high-score").innerHTML = "<h2> <i class=\"fa fa-trophy\" aria-hidden=\"true\"></i> " + highScore + "</h2>";       
+        
     }
 
     // replay on enter
@@ -462,6 +463,6 @@ function gameOver(){
 
 function updateScore(){
     score++;
-    document.getElementById("score").innerHTML = "<h2> score: " + score + "</h2>";
+    document.getElementById("score").innerHTML = "<h2> <i class=\"fa fa-apple\" aria-hidden=\"true\"></i>" + score +  "</h2>";
     console.log(score);
 }
