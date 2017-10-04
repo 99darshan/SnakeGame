@@ -2,7 +2,7 @@
 // const snake = document.getElementById('snake');
 // snake is made up of three snake divs initially, let's call them snakeBody
 // snake[0] is the head of our snake
-const snake = document.getElementsByClassName('snake-body'); // returns a collection of div's with class snake
+var snake = document.getElementsByClassName('snake-body'); // returns a collection of div's with class snake
 const fruit = document.getElementById('fruit');
 // const boardWidth = document.getElementById('game-board').offsetWidth;
 // const boardHeight = document.getElementById('game-board').offsetHeight;
@@ -17,7 +17,11 @@ const snakeMoveTimeInterval = 100;
 const boardWidth = document.getElementById('game-board').style.width = snakeBodyWidth * 16;
 const boardHeight = document.getElementById('game-board').style.height = snakeBodyHeight * 25;
 
+// save the direction in which the snake is currently moving
+var currentDir = ""; 
 
+var score = 0;
+var highScore = 0;
  
 //var snakeTopY = snake.offsetTop;
 // x and y coordinate of top left positioning of fruit
@@ -38,13 +42,43 @@ var allXYPosInGameBoard = [];
 var snakeXYPos = [];
 
 
+
 startGame();
-function startGame(){    
+function startGame(){        
+    // reset variables, resets the game to initial state everytime this function gets called on gameOver
+    snakeTopX = [];
+    snakeTopY = [];
+    allXYPosInGameBoard = [];
+    snakeXYPos = [];
+    currentDir = "";
+    score = 0;
+
+    // show/hide elements as required when restaring game after gameOver
+    document.getElementById("score").innerHTML = "<h2> score: " + score + "</h2>";
+    
+    for(var i=0; i < snake.length; i++){
+        snake[i].style.visibility = "visible";
+    }
+    fruit.style.visibility = "visible";
+
+    document.getElementById('gameOver').style.display = 'none';
+    
+
+    // remove additional snake body div, that were added in previous game
+    var childSnakeBodyDiv = document.getElementById('game-board')        
+    while(snake.length > 3){
+        childSnakeBodyDiv.removeChild(snake[snake.length - 1]);
+    }
+
+    //snake = document.getElementsByClassName('snake-body');
     //set position for each initial snake bodies in our snake
     for(var i = 0; i < snake.length; i++){
         snake[i].style.top = snakeBodyHeight * (snake.length - i -1);
         snake[i].style.left = 0;
     }
+
+    snake[0].style.background = "#B94A3C";
+    
 
     // push the assigned position to the snakeTopX and snakeTopY array
     // push current all XY position of snake bodies to 2D snakeXYPos array as well
@@ -81,7 +115,7 @@ function randomizeFruitPos(){
         // snakeXYPos.push([snake[i].offsetLeft, snake[i].offsetTop]);
         snakeXYPos[i] = [snake[i].offsetLeft, snake[i].offsetTop];
     }
-    console.log("snakeXy" + snakeXYPos);
+    //console.log("snakeXy" + snakeXYPos);
 
     // determine possible new position for fruit
     // for all [x,y] positions in the gameBoard, only those [x,y] values not in snakeXYPos
@@ -298,7 +332,6 @@ function move(dir){
 //document.addEventListener("keyup", function(e){}) add event listener for keyup event
 
 // or element.onkeyDown = event handling code
-var currentDir; // save the direction in which the snake is currently moving
 document.onkeydown =function(e){
     //console.log("event triggered");
     //console.log(e.key);
@@ -404,21 +437,29 @@ function gameOver(){
     }
     fruit.style.visibility = "hidden";
 
+    // check highScore
+    if(score >= highScore){
+        highScore = score;
+        document.getElementById("high-score").innerHTML = "<h2> High Score: " + highScore + "</h2>";        
+    }
+
     // replay on enter
     document.addEventListener('keyup', function(e){
-        if(e.key === "Enter") location.reload();
+        //if(e.key === "Enter") location.reload();
+        if(e.key == "Enter") startGame();
     });
 
     // gameOver button Click listener
     // replay on click
     document.getElementById('gameOver').addEventListener("click", function(){
-        location.reload(); // reload page when play again button is clicked
+        //location.reload(); // reload page when play again button is clicked
+        startGame();
     });
 }
 
 
 // count and update score
-var score = 0;
+
 function updateScore(){
     score++;
     document.getElementById("score").innerHTML = "<h2> score: " + score + "</h2>";

@@ -1,5 +1,8 @@
 #game-board {
-    border: 1px solid red;
+    border: 1px solid #FA8752;
+    /* border: 1px solid #B94A3C; */
+    
+    
     /* height: 540px;
     width: 320px; */
     position: relative;
@@ -10,7 +13,8 @@
 .snake-body {
     height: 20px;
     width: 20px;
-    background: blueviolet;
+    border: 1px solid white;
+    background: #F8643F;
     position: absolute;
         /* top: 0px;
     left: 0px; */
@@ -19,7 +23,7 @@
 #fruit {
     height: 20px;
     width: 20px;
-    background: green;
+    background: #08A7D8;
     position: absolute;
     top: 10px;
     left: 10px;
@@ -29,27 +33,40 @@
     display: none;  
     top: 40%;
     height: 60px;
-    width: 320px;
+    width: 100%;
     background: gray;
     position: absolute;
 }
 
 #gameOver > h4{
     text-align: center;
-    color: yellow;
+    color: white;
 }
 
 #score {
     background: gray;
     color: white;
-    left: 50%;
+    left: 55%;
     position: absolute;
     display: inline-block;
     top: 2%;
-    
 }
 
 #score > h2 {
+    padding: 10px;
+    text-align: center;
+}
+
+#high-score {
+    background: #FA8752;
+    color: white;
+    top: 2%;
+    left: 40%;
+    position: absolute;
+    display: inline-block;
+}
+
+#high-score > h2 {
     padding: 10px;
     text-align: center;
 }
