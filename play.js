@@ -61,6 +61,14 @@ function startGame(){
     fruit.style.visibility = "visible";
 
     document.getElementById('gameOver').style.display = 'none';
+
+    // remove animate.css style class, so them gets applied again when gameOver is called
+    // need this since we are not reloading the page to restart the game
+    document.getElementById('high-score').classList.remove("animated");
+    document.getElementById('high-score').classList.remove("bounce");
+
+    document.getElementById('game-board').classList.remove("animated");
+    document.getElementById('game-board').classList.remove("wobble");    
     
 
     // remove additional snake body div, that were added in previous game
@@ -104,7 +112,6 @@ function startGame(){
 // randomly generate fruit 
 // without overlapping with the current snake position
 // using 2D array
-
 function randomizeFruitPos(){
     var possibelXYPosForFruit = [];
     
@@ -405,9 +412,11 @@ function gameOver(){
     if(score >= highScore){
         highScore = score;
         document.getElementById("high-score").innerHTML = "<h2> <i class=\"fa fa-trophy\" aria-hidden=\"true\"></i> " + highScore + "</h2>";       
-        
+        document.getElementById("high-score").className = "animated bounce"; // css class from animate.CSS
     }
 
+    // add wobble effect to gameboard on gameOver animate.css
+    document.getElementById('game-board').className = "animated wobble";
     // replay on enter
     document.addEventListener('keyup', function(e){
         //if(e.key === "Enter") location.reload();
