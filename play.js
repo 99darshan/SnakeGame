@@ -20,6 +20,9 @@ const boardHeight = document.getElementById('game-board').style.height = snakeBo
 // save the direction in which the snake is currently moving
 var currentDir = ""; 
 
+var fruitTypes = ["apple", "carrot", "beer"];
+var currentFruit = "apple";
+
 var score = 0;
 var highScore = 0;
  
@@ -40,8 +43,6 @@ var allXYPosInGameBoard = [];
 
 // 2D array to hold all current XY position for snake bodies
 var snakeXYPos = [];
-
-
 
 startGame();
 function startGame(){        
@@ -148,8 +149,31 @@ function randomizeFruitPos(){
     fruitTopX = randomFruitPos[0];
     fruitTopY = randomFruitPos[1];
 
-    fruit.style.top = fruitTopY;
-    fruit.style.left = fruitTopX;
+    //fruit.style.top = fruitTopY;
+    //fruit.style.left = fruitTopX;
+
+    displayFruit(fruitTopX, fruitTopY);
+}
+
+// function to display a fruit of random type
+function displayFruit(xPos, yPos){
+
+    currentFruit = fruitTypes[Math.floor(Math.random() * 3 )];
+    fruit.style.top = yPos;
+    fruit.style.left = xPos;
+
+    switch(currentFruit){
+        case "apple":
+            document.getElementById('fruit').innerHTML = '<img src="icons/png/003-apple.png" alt="apple">';
+            break;
+        case "carrot":
+            document.getElementById('fruit').innerHTML = '<img src="icons/png/002-carrot.png" alt="carrot">';                
+            break;
+        case "beer":
+            document.getElementById('fruit').innerHTML = '<img src="icons/png/002-beer-1.png" alt="beer">';
+            break;
+    }
+
 }
 
 // randomly generate position for our fruit
@@ -458,11 +482,22 @@ function gameOver(){
     });
 }
 
-
 // count and update score
 
 function updateScore(){
-    score++;
+    switch(currentFruit){
+        case "apple":
+            score += 5;
+            break;
+        case "carrot":
+            score += 10;
+            break;
+        case "beer":
+            score += 20;
+            break;
+    }
+        
+    //score++;
     document.getElementById("score").innerHTML = "<h2> <i class=\"fa fa-apple\" aria-hidden=\"true\"></i>" + score +  "</h2>";
     console.log(score);
 }

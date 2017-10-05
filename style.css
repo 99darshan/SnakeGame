@@ -8,7 +8,7 @@
     position: relative;
     top: 2%;
     left: 40%;
-    background: url('icons/png/002-square.png');
+    background: url('icons/png/002-square-1.png');
 }
 
 .snake-body {
@@ -36,7 +36,7 @@
     top: 40%;
     height: 60px;
     width: 100%;
-    background: gray;
+    background: #F8643F;
     position: absolute;
 }
 
