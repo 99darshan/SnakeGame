@@ -12,7 +12,7 @@ var snakeBodyHeight = snake[0].offsetHeight;
 var snakeBodyWidth = snake[0].offsetWidth;
 const fruitSize = fruit.offsetHeight;
 const snakeMoveDistance = snakeBodyHeight;
-const snakeMoveTimeInterval = 100;
+var snakeMoveTimeInterval = 100;
 
 const boardWidth = document.getElementById('game-board').style.width = snakeBodyWidth * 16;
 const boardHeight = document.getElementById('game-board').style.height = snakeBodyHeight * 25;
@@ -50,6 +50,7 @@ function startGame(){
     allXYPosInGameBoard = [];
     snakeXYPos = [];
     currentDir = "";
+    snakeMoveTimeInterval = 100;
     score = 0;
 
     // show/hide elements as required when restaring game after gameOver
@@ -437,12 +438,15 @@ function updateScore(){
     switch(currentFruit){
         case "apple":
             score += 5;
+            snakeMoveTimeInterval = 100;
             break;
         case "carrot":
             score += 10;
+            snakeMoveTimeInterval = 100;
             break;
         case "beer":
             score += 20;
+            snakeMoveTimeInterval = 60; // increase speed when snake captures the beer
             break;
     }
         
