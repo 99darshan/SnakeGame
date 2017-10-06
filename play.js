@@ -24,7 +24,12 @@ var fruitTypes = ["apple", "carrot", "beer"];
 var currentFruit = "apple";
 
 var score = 0;
-var highScore = 0;
+//var highScore = 0;
+// use local storage to save the highScore, local storage 5MB max limitation, persistently saves data for the current domain
+// saves highScore on page refresh as well
+if(localStorage.getItem('highScore') === null){
+    localStorage.setItem('highScore', 0);
+}
  
 // x and y coordinate of top left positioning of fruit
 var fruitTopX = fruit.offsetLeft;
@@ -56,11 +61,15 @@ function startGame(){
     // show/hide elements as required when restaring game after gameOver
     document.getElementById("score").innerHTML = "<h2> <i class=\"fa fa-apple\" aria-hidden=\"true\"></i>" + score +  "</h2>";
     
+    // display highScore value from the localStorage
+    document.getElementById("high-score").innerHTML = '<h2>  <i class="fa fa-trophy" ></i>'+ localStorage.getItem("highScore") +'</h2>'
+    
+
     for(var i=0; i < snake.length; i++){
         snake[i].style.visibility = "visible";
     }
     fruit.style.visibility = "visible";
-
+ 
     document.getElementById('gameOver').style.display = 'none';
 
     // remove animate.css style class, so them gets applied again when gameOver is called
@@ -410,9 +419,11 @@ function gameOver(){
     fruit.style.visibility = "hidden";
 
     // check highScore
+    var highScore = localStorage.getItem("highScore");
     if(score >= highScore){
-        highScore = score;
-        document.getElementById("high-score").innerHTML = "<h2> <i class=\"fa fa-trophy\" aria-hidden=\"true\"></i> " + highScore + "</h2>";       
+        localStorage.setItem("highScore", score);
+        //highScore = score;
+        document.getElementById("high-score").innerHTML = "<h2> <i class=\"fa fa-trophy\" aria-hidden=\"true\"></i> " + localStorage.getItem("highScore") + "</h2>";       
         document.getElementById("high-score").className = "animated bounce"; // css class from animate.CSS
     }
 
