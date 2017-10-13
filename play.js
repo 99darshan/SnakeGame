@@ -1,11 +1,8 @@
 // variables and const
-// const snake = document.getElementById('snake');
 // snake is made up of three snake divs initially, let's call them snakeBody
 // snake[0] is the head of our snake
 var snake = document.getElementsByClassName('snake-body'); // returns a collection of div's with class snake
 const fruit = document.getElementById('fruit');
-// const boardWidth = document.getElementById('game-board').offsetWidth;
-// const boardHeight = document.getElementById('game-board').offsetHeight;
 
 // height and width of snake and fruit
 var snakeBodyHeight = snake[0].offsetHeight;
@@ -24,8 +21,8 @@ var fruitTypes = ["apple", "carrot", "beer"];
 var currentFruit = "apple";
 
 var score = 0;
-//var highScore = 0;
-// use local storage to save the highScore, local storage 5MB max limitation, persistently saves data for the current domain
+// use local storage to save the highScore, local storage 5MB max limitation, 
+//persistently saves data for the current domain
 // saves highScore on page refresh as well
 if(localStorage.getItem('highScore') === null){
     localStorage.setItem('highScore', 0);
@@ -44,7 +41,7 @@ var snakeTopY = []; // holds y coordinate i.e top value of top left point of all
 //[[0,0],[0,20],[0,40],...]
 var allXYPosInGameBoard = [];
 
-// 2D array to hold all current XY position for snake bodies
+// 2D array to hold all current top left corner X,Y position for snake bodies
 var snakeXYPos = [];
 
 startGame();
@@ -72,7 +69,7 @@ function startGame(){
  
     document.getElementById('gameOver').style.display = 'none';
 
-    // remove animate.css style class, so them gets applied again when gameOver is called
+    // remove animate.css style class, so they gets applied again when gameOver is called
     // need this since we are not reloading the page to restart the game
     document.getElementById('high-score').classList.remove("animated");
     document.getElementById('high-score').classList.remove("bounce");
@@ -161,9 +158,6 @@ function randomizeFruitPos(){
      // randomFruitPos is a 2D array e.g. [[x,y]]
     fruitTopX = randomFruitPos[0];
     fruitTopY = randomFruitPos[1];
-
-    //fruit.style.top = fruitTopY;
-    //fruit.style.left = fruitTopX;
 
     displayFruit(fruitTopX, fruitTopY);
 }
@@ -270,10 +264,7 @@ function move(dir){
                     snakeTopY[i] = oldY[i-1];
                     snake[i].style.top = snakeTopY[i];
                 }  
-            }
-            //snakeTopX -= snakeMoveDistance;
-            //snake.style.left = snakeTopX;
-            //console.log("snakeX: "+ snakeTopX);            
+            }          
             collision();
         }, snakeMoveTimeInterval);
     }
@@ -297,8 +288,6 @@ function move(dir){
                     snake[i].style.top = snakeTopY[i];
                 } 
             }
-            //snakeTopX += snakeMoveDistance;
-            //snake.style.left = snakeTopX;
             collision();
         }, snakeMoveTimeInterval);
     }
@@ -461,7 +450,6 @@ function updateScore(){
             break;
     }
         
-    //score++;
     document.getElementById("score").innerHTML = "<h2> <i class=\"fa fa-apple\" aria-hidden=\"true\"></i>" + score +  "</h2>";
     console.log(score);
 }
