@@ -15,7 +15,8 @@ const boardWidth = document.getElementById('game-board').style.width = snakeBody
 const boardHeight = document.getElementById('game-board').style.height = snakeBodyHeight * 25;
 
 // save the direction in which the snake is currently moving
-var currentDir = ""; 
+// intialize currentDir to down, since the snake is facing down at first
+var currentDir = "down"; 
 
 var fruitTypes = ["apple", "carrot", "beer"];
 var currentFruit = "apple";
@@ -51,7 +52,7 @@ function startGame(){
     snakeTopY = [];
     allXYPosInGameBoard = [];
     snakeXYPos = [];
-    currentDir = "";
+    currentDir = "down";
     snakeMoveTimeInterval = 100;
     score = 0;
 
@@ -86,8 +87,8 @@ function startGame(){
 
     //set position for each initial snake bodies in our snake
     for(var i = 0; i < snake.length; i++){
-        snake[i].style.top = snakeBodyHeight * (snake.length - i -1);
-        snake[i].style.left = 0;
+        snake[i].style.top = snakeBodyHeight * (snake.length - i -1) + snakeBodyHeight * 3;
+        snake[i].style.left = snakeBodyWidth * 5;
     }
 
     // assign bg color to the head of snake
