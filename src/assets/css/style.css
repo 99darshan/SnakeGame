@@ -1,0 +1,82 @@
+#game-board {
+    /* height: 540px;
+    width: 320px; */
+    position: relative;
+    top: 2%;
+    left: 40%;
+    background: url('../images/bg.png');
+}
+
+.snake-body {
+    height: 24px;
+    width: 24px;
+    border: 1px solid white;
+    background: #F8643F;
+    position: absolute;
+        /* top: 0px;
+    left: 0px; */
+}
+
+#fruit {
+    height: 24px;
+    width: 24px;
+    /* background: #08A7D8; */
+    background:transparent;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+#gameOver{
+    display: none;  
+    top: 40%;
+    height: 60px;
+    width: 100%;
+    background: #F8643F;
+    position: absolute;
+}
+
+#gameOver > h4{
+    text-align: center;
+    color: white;
+}
+
+
+#score {
+    width: 100px;
+    background: gray;
+    color: white;
+    left: 130px;
+    position: absolute;
+    display: inline-block;
+    top: 2%;
+    
+}
+
+#score > h2 {
+    padding: 10px;
+    text-align: center;
+}
+
+#score > h2 > i {
+    color: #FA8752;
+}
+
+#high-score {
+    width: 100px;
+    background: #FA8752;
+    color: white;
+    top: 2%;
+    left: 20px;
+    position: absolute;
+    display: inline-block;
+}
+
+#high-score > h2 {
+    padding: 10px;
+    text-align: center;
+}
+
+#high-score > h2 >i {
+    color: gray;
+}
